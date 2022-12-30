@@ -1,0 +1,25 @@
+<tr>
+  <td align='right' valign='top' width='75' style="padding:0 5px 0 0"><a href=view.php?id=ppomppu&page=1&divpage=66&hotlist_flag=999&&no=446947 onfocus=blur() tooltip=P_img://cdn.ppomppu.co.kr/zboard/data3/2022/1230/m_20221230000855_6oT0Elr4H4.jpg>
+  //핫딜이미지  
+  <img src="//cdn.ppomppu.co.kr/zboard/data/_thumb/ppomppu/7/small_446947.jpg?t=20221230001046" width="60" height="50" onFocus="blur()" border="0" class="thumb_border" onerror="this.src='//static.ppomppu.co.kr/www/img/noimage/noimage_60x50.jpg'" style="margin:0px 5px 0px 5px;" align=absmiddle></a>
+  </td>
+  <td valign='middle'>
+    <div style='display:inline-block;line-height:1.6;vertical-align:middle;'><img src="/images/menu/hot_icon2.jpg" class="icons_vertical">  
+    // 핫딜링크
+    <a href="view.php?id=ppomppu&page=1&divpage=66&hotlist_flag=999&no=446947"  >
+    // 상품명
+    <font style='text-decoration:line-through;color:#ACACAC;'>[VOGO] 베트남 G7 블랙커피 200개 (8,900원/무료)</font></a>&nbsp;<span class=list_comment2>
+    //댓글수
+    <span style='cursor:pointer;' onclick='win_comment("popup_comment.php?id=ppomppu&no=446947");'>58</span> </span>&nbsp;
+    // 딜 종료아이콘
+    <img src='/zboard/skin/DQ_Revolution_BBS_New1/end_icon.PNG' /><br>
+    //상품카테고리
+    <span style='color:#999;font-size:11px;'>[식품/건강]</span></div             </td></tr></table></td>
+    <td nowrap class='eng list_vspace' colspan=2  title="22.12.30 06:52:01" >
+    //등록시간
+    <nobr class='eng list_vspace'>06:52:01</td>
+    // 추천-비추천
+    <td nowrap class='eng list_vspace' colspan=2>26 - 0</td>        
+    //조회수
+    <td nowrap class='eng list_vspace' colspan=2>26754</td>
+</tr>

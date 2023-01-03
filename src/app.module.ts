@@ -1,20 +1,25 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
-import { PpomppuModule } from './module/ppomppu/ppomppu.module';
-import { PpomppuService } from './module/ppomppu/ppomppu.service';
+import { AppService } from './app.service';
+import { KakaoModule } from './module/kakao/kakao.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
     imports: [
         ScheduleModule.forRoot(),
+        ConfigModule.forRoot({
+            isGlobal: true,
+        }),
         HttpModule.registerAsync({
             useFactory: () => ({
                 timeout: 5000,
                 maxRedirects: 5,
             }),
         }),
+        KakaoModule,
     ],
     // provders에 module을 넣으니 자동으로 콜이 안됨...관계를 공부하자
-    providers: [PpomppuService],
+    providers: [AppService],
 })
 export class AppModule {}

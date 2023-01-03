@@ -1,9 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import axios from 'axios';
+import { KakaoService } from '../kakao/kakao.service';
 
 @Injectable()
 export class PpomppuService {
+    constructor(private kakaoService: KakaoService) {}
+
     private readonly URL: string =
         'https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&page=1&hotlist_flag=999&divpage=66';
     // private readonly API_KEY = {
@@ -16,9 +19,10 @@ export class PpomppuService {
     //@Cron('10 * * * * *', { name: 'ppomppuTask' })
     @Interval('hotdealTask', 5000)
     public async getPpompuHotdeal() {
-        this.test().then((result) => {
-            console.log(result);
-        });
+        //await this.kakaoService.beginLogin();
+        // this.test().then((result) => {
+        //     console.log(result);
+        // });
     }
     public async test() {
         // eslint-disable-next-line @typescript-eslint/no-var-requires

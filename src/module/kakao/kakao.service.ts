@@ -88,26 +88,51 @@ export class KakaoService {
     async kakaoMsg(): Promise<any> {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const qs = require('querystring');
-        const kakaoKey = config.get('kakao').client_id;
-        const kakaoTokenUrl =
+        const kakaoMsgUrl =
             'https://kapi.kakao.com/v2/api/talk/memo/default/send';
         const body = {
-            object_type: 'feed',
+            object_type: 'list',
+            header_title: 'Google',
             header_link: {
-                web_url: 'www.naver.com',
-                mobile_web_url: 'www.naver.com',
+                web_url: 'www.google.com',
+                mobile_web_url: 'www.google.com',
             },
             contents: [
                 {
-                    title: '1. 광어초밥',
-                    description: '광어는 맛있다',
+                    title: '1. 국립공원 뉴스',
+                    description: '검색어: national park',
                     image_url:
-                        'https://search1.kakaocdn.net/argon/0x200_85_hr/8x5qcdbcQwi',
+                        'https://cdn.kado.net/news/photo/201901/948844_399953_0825.jpg',
                     image_width: 50,
                     image_height: 50,
                     link: {
-                        web_url: 'www.naver.com',
-                        mobile_web_url: 'www.naver.com',
+                        web_url:
+                            'https://www.google.co.kr/search?q=national+park&source=lnms&tbm=nws',
+                        mobile_web_url:
+                            'https://www.google.co.kr/search?q=national+park&source=lnms&tbm=nws',
+                    },
+                },
+                {
+                    title: '2. 딥러닝 뉴스',
+                    description: '검색어: deep learning',
+                    image_url:
+                        'https://cdn-images-1.medium.com/max/1200/1*iDQvKoz7gGHc6YXqvqWWZQ.png',
+                    image_width: 50,
+                    image_height: 50,
+                    link: {
+                        web_url:
+                            'https://www.google.co.kr/search?q=deep+learning&source=lnms&tbm=nws',
+                        mobile_web_url:
+                            'https://www.google.co.kr/search?q=deep+learning&source=lnms&tbm=nws',
+                    },
+                },
+            ],
+            buttons: [
+                {
+                    title: 'Google로 이동',
+                    link: {
+                        web_url: 'www.google.com',
+                        mobile_web_url: 'www.google.com',
                     },
                 },
             ],
@@ -116,13 +141,14 @@ export class KakaoService {
             'Content-Type': 'application/x-www-form-urlencoded',
             Authorization: 'Bearer ' + this._kakaoToken,
         };
+        console.log(JSON.stringify(body));
         try {
             const response = await axios({
                 method: 'POST',
-                url: kakaoTokenUrl,
+                url: kakaoMsgUrl,
                 timeout: 30000,
                 headers,
-                data: qs.stringify(body),
+                data: { template_object: JSON.stringify(body) },
             });
             if (response.status === 200) {
                 console.log(response);

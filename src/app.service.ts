@@ -29,7 +29,7 @@ export class AppService {
 
     @Interval('loginCheckTask', 5000)
     async checkLogin() {
-        if (this.kakaoService.kakaoToken === undefined) {
+        if (this.kakaoService.accessToken === undefined) {
             console.log('아직로그인안됨');
         } else {
             console.log('로그인댐');

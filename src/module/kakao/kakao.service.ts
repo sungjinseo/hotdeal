@@ -1,15 +1,19 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import axios from 'axios';
 import * as config from 'config';
-import qs from 'querystring';
 
 @Injectable()
 export class KakaoService {
-    private _kakaoToken;
+    private _accessToken;
+    private _refreshToken;
 
-    get kakaoToken(): string {
-        return this._kakaoToken;
+    get accessToken(): string {
+        return this._accessToken;
     }
+    get refreshToken(): string {
+        return this._refreshToken;
+    }
+
     // 코드받을때 쓰는구나...
     async callAuth(clientId: string, redirectUri: string) {
         //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
@@ -47,35 +51,10 @@ export class KakaoService {
                 data: qs.stringify(body),
             });
             if (response.status === 200) {
-                this._kakaoToken = response.data.access_token;
+                this._accessToken = response.data.access_token;
+                this._refreshToken = response.data.refresh_token;
+
                 console.log(`kakaoToken : ${JSON.stringify(response.data)}`);
-                // Token 을 가져왔을 경우 사용자 정보 조회
-                const headerUserInfo = {
-                    'Content-Type':
-                        'application/x-www-form-urlencoded;charset=utf-8',
-                    Authorization: 'Bearer ' + response.data.access_token,
-                };
-                console.log(`url : ${kakaoTokenUrl}`);
-                console.log(`headers : ${JSON.stringify(headerUserInfo)}`);
-                const responseUserInfo = await axios({
-                    method: 'GET',
-                    url: kakaoUserInfoUrl,
-                    timeout: 30000,
-                    headers: headerUserInfo,
-                });
-                console.log(
-                    `responseUserInfo.status : ${responseUserInfo.status}`,
-                );
-                if (responseUserInfo.status === 200) {
-                    console.log(
-                        `kakaoUserInfo : ${JSON.stringify(
-                            responseUserInfo.data,
-                        )}`,
-                    );
-                    return responseUserInfo.data;
-                } else {
-                    throw new UnauthorizedException();
-                }
             } else {
                 throw new UnauthorizedException();
             }
@@ -92,54 +71,77 @@ export class KakaoService {
             'https://kapi.kakao.com/v2/api/talk/memo/default/send';
         const body = {
             object_type: 'list',
-            header_title: 'Google',
+            header_title: 'WEEKELY MAGAZINE',
             header_link: {
-                web_url: 'www.google.com',
-                mobile_web_url: 'www.google.com',
+                web_url: 'http://www.daum.net',
+                mobile_web_url: 'http://m.daum.net',
+                android_execution_params: 'main',
+                ios_execution_params: 'main',
             },
             contents: [
                 {
-                    title: '1. 국립공원 뉴스',
-                    description: '검색어: national park',
+                    title: '자전거 라이더를 위한 공간',
+                    description: '매거진',
                     image_url:
-                        'https://cdn.kado.net/news/photo/201901/948844_399953_0825.jpg',
-                    image_width: 50,
-                    image_height: 50,
+                        'https://mud-kage.kakao.com/dn/QNvGY/btqfD0SKT9m/k4KUlb1m0dKPHxGV8WbIK1/openlink_640x640s.jpg',
+                    image_width: 640,
+                    image_height: 640,
                     link: {
-                        web_url:
-                            'https://www.google.co.kr/search?q=national+park&source=lnms&tbm=nws',
-                        mobile_web_url:
-                            'https://www.google.co.kr/search?q=national+park&source=lnms&tbm=nws',
+                        web_url: 'http://www.daum.net/contents/1',
+                        mobile_web_url: 'http://m.daum.net/contents/1',
+                        android_execution_params: '/contents/1',
+                        ios_execution_params: '/contents/1',
                     },
                 },
                 {
-                    title: '2. 딥러닝 뉴스',
-                    description: '검색어: deep learning',
+                    title: '비쥬얼이 끝내주는 오레오 카푸치노',
+                    description: '매거진',
                     image_url:
-                        'https://cdn-images-1.medium.com/max/1200/1*iDQvKoz7gGHc6YXqvqWWZQ.png',
-                    image_width: 50,
-                    image_height: 50,
+                        'https://mud-kage.kakao.com/dn/boVWEm/btqfFGlOpJB/mKsq9z6U2Xpms3NztZgiD1/openlink_640x640s.jpg',
+                    image_width: 640,
+                    image_height: 640,
                     link: {
-                        web_url:
-                            'https://www.google.co.kr/search?q=deep+learning&source=lnms&tbm=nws',
-                        mobile_web_url:
-                            'https://www.google.co.kr/search?q=deep+learning&source=lnms&tbm=nws',
+                        web_url: 'http://www.daum.net/contents/2',
+                        mobile_web_url: 'http://m.daum.net/contents/2',
+                        android_execution_params: '/contents/2',
+                        ios_execution_params: '/contents/2',
+                    },
+                },
+                {
+                    title: '감성이 가득한 분위기',
+                    description: '매거진',
+                    image_url:
+                        'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
+                    image_width: 640,
+                    image_height: 640,
+                    link: {
+                        web_url: 'http://www.daum.net/contents/3',
+                        mobile_web_url: 'http://m.daum.net/contents/3',
+                        android_execution_params: '/contents/3',
+                        ios_execution_params: '/contents/3',
                     },
                 },
             ],
             buttons: [
                 {
-                    title: 'Google로 이동',
+                    title: '웹으로 이동',
                     link: {
-                        web_url: 'www.google.com',
-                        mobile_web_url: 'www.google.com',
+                        web_url: 'http://www.daum.net',
+                        mobile_web_url: 'http://m.daum.net',
+                    },
+                },
+                {
+                    title: '앱으로 이동',
+                    link: {
+                        android_execution_params: 'main',
+                        ios_execution_params: 'main',
                     },
                 },
             ],
         };
         const headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: 'Bearer ' + this._kakaoToken,
+            Authorization: 'Bearer ' + this.accessToken,
         };
         console.log(JSON.stringify(body));
         try {

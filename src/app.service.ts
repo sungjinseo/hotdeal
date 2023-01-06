@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import { KakaoService } from './module/kakao/kakao.service';
+import { PuppeteerService } from './module/puppeteer/puppeteer.service';
 import { ConfigService } from '@nestjs/config';
 import * as config from 'config';
 
@@ -9,7 +10,10 @@ export class AppService {
     // 환경변수를 이렇게 읽어오는 것은 별로 좋지 않음...생성자로 넣어도 configservice가 작동을 안해서 어쩔수 없이
     private readonly clientId = config.get('kakao.client_id');
     private readonly redirectUri = 'http://localhost:3000/kakao-callback';
-    constructor(private kakaoService: KakaoService) {}
+    constructor(
+        private kakaoService: KakaoService,
+        private puppeteerService: PuppeteerService,
+    ) {}
     // constructor(
     //     private readonly configService: ConfigService,
     //     private kakaoService: KakaoService,
@@ -31,6 +35,9 @@ export class AppService {
     async checkLogin() {
         if (this.kakaoService.accessToken === undefined) {
             console.log('아직로그인안됨');
+            const result = this.puppeteerService.example();
+            //puppeteer을 이용해서 로그인처리해보자
+            //this.kakaoService.callAuth(this.clientId, this.redirectUri);
         } else {
             console.log('로그인댐');
             this.kakaoService.kakaoMsg();

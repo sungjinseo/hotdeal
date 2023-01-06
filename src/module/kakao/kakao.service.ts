@@ -53,8 +53,8 @@ export class KakaoService {
             if (response.status === 200) {
                 this._accessToken = response.data.access_token;
                 this._refreshToken = response.data.refresh_token;
-
-                console.log(`kakaoToken : ${JSON.stringify(response.data)}`);
+                //console.log(`kakaoToken : ${JSON.stringify(response.data)}`);
+                return JSON.stringify(response.data);
             } else {
                 throw new UnauthorizedException();
             }
@@ -73,10 +73,8 @@ export class KakaoService {
             object_type: 'list',
             header_title: 'WEEKELY MAGAZINE',
             header_link: {
-                web_url: 'http://www.daum.net',
-                mobile_web_url: 'http://m.daum.net',
-                android_execution_params: 'main',
-                ios_execution_params: 'main',
+                web_url: 'https://www.ppomppu.co.kr/',
+                mobile_web_url: 'https://www.ppomppu.co.kr/',
             },
             contents: [
                 {
@@ -87,10 +85,8 @@ export class KakaoService {
                     image_width: 640,
                     image_height: 640,
                     link: {
-                        web_url: 'http://www.daum.net/contents/1',
-                        mobile_web_url: 'http://m.daum.net/contents/1',
-                        android_execution_params: '/contents/1',
-                        ios_execution_params: '/contents/1',
+                        web_url: 'https://www.ppomppu.co.kr',
+                        mobile_web_url: 'https://www.ppomppu.co.kr',
                     },
                 },
                 {
@@ -101,24 +97,8 @@ export class KakaoService {
                     image_width: 640,
                     image_height: 640,
                     link: {
-                        web_url: 'http://www.daum.net/contents/2',
-                        mobile_web_url: 'http://m.daum.net/contents/2',
-                        android_execution_params: '/contents/2',
-                        ios_execution_params: '/contents/2',
-                    },
-                },
-                {
-                    title: '감성이 가득한 분위기',
-                    description: '매거진',
-                    image_url:
-                        'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
-                    image_width: 640,
-                    image_height: 640,
-                    link: {
-                        web_url: 'http://www.daum.net/contents/3',
-                        mobile_web_url: 'http://m.daum.net/contents/3',
-                        android_execution_params: '/contents/3',
-                        ios_execution_params: '/contents/3',
+                        web_url: 'https://www.ppomppu.co.kr',
+                        mobile_web_url: 'https://www.ppomppu.co.kr',
                     },
                 },
             ],

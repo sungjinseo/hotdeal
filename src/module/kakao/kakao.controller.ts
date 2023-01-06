@@ -19,14 +19,13 @@ export class KakaoController {
     // REDIRECT_URI = http://localhost:3000/kakao-callback
     // 위주소를 실행하면 callback로 로그인처리가 됨
     // 최초에만 동의가 뜨기때문에 혼자 만드는거면 서버킬때 해당 리퀘스트 한번 날려주자
+    // 401 받으면 권한에 대한 문제가 발생한거다
     @Get('/kakao-callback')
     async kakaoLogin(@Query('code') code: string) {
         const domain = 'http://localhost:3000';
         if (this.appService.accessToken === undefined) {
             const kakao = await this.appService.kakaoLogin({ code, domain });
-            if (!kakao.id) {
-                throw new BadRequestException('카카오 정보가 없습니다.');
-            }
+            console.log(kakao);
         }
     }
 }

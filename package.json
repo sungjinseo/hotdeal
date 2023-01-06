@@ -32,6 +32,8 @@
     "cheerio": "^1.0.0-rc.12",
     "config": "^3.3.8",
     "iconv-lite": "^0.6.3",
+    "puppeteer": "^19.4.1",
+    "puppeteer-core": "^19.4.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"

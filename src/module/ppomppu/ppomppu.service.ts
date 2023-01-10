@@ -47,6 +47,9 @@ export class PpomppuService {
                 const tr = $(element);
 
                 // 사이즈가 3이면 종료아이콘이 있는거임.
+                console.log(tr.find('img').get(1).attributes[0].value);
+                // 여기 컨테인이 /images/menu/hot_icon2.jpg 핫딜
+                // /images/menu/pop_icon2.jpg 인기딜
                 console.log(tr.find('img').length);
                 console.log(tr.find('table').find('tr').find('td').find('a').text());
                 // image
@@ -60,6 +63,7 @@ export class PpomppuService {
                 // tr.find('table').find('tr').find('td').find('a').attr('href')
                 // 리스트의 마지막 바로전이 추천-비추천수
                 // tr.text().split('\t')[tr.text().split('\t').length-2]
+                ///images/menu/hot_icon2.jpg
                 return {
                     link: `http://www.ppomppu.co.kr/zboard/${tr
                         .find('table')

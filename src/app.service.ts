@@ -4,6 +4,7 @@ import { KakaoService } from './module/kakao/kakao.service';
 import { PuppeteerService } from './module/puppeteer/puppeteer.service';
 import { ConfigService } from '@nestjs/config';
 import * as config from 'config';
+import { PpomppuService } from './module/ppomppu/ppomppu.service';
 
 @Injectable()
 export class AppService {
@@ -13,6 +14,7 @@ export class AppService {
     constructor(
         private kakaoService: KakaoService,
         private puppeteerService: PuppeteerService,
+        private ppomppuService: PpomppuService,
     ) {}
     // constructor(
     //     private readonly configService: ConfigService,
@@ -22,21 +24,19 @@ export class AppService {
     // }
 
     //@Cron('10 * * * * *', { name: 'ppomppuTask' })
-    //@Interval('hotdealTask', 5000)
+    @Interval('hotdealTask', 5000)
     public async getPpompuHotdeal() {
-        //await this.kakaoService.beginLogin();
-        //await this.kakaoService.getTocken();
-        // this.test().then((result) => {
-        //     console.log(result);
-        // });
+        this.ppomppuService.test().then((result) => {
+            console.log(result);
+        });
     }
 
-    @Interval('loginCheckTask', 5000)
+    //@Interval('loginCheckTask', 5000)
     async checkLogin() {
         if (this.kakaoService.accessToken === undefined) {
             console.log('아직로그인안됨');
-            const result = this.puppeteerService.example();
             //puppeteer을 이용해서 로그인처리해보자
+            const result = await this.puppeteerService.example('http:/');
             //this.kakaoService.callAuth(this.clientId, this.redirectUri);
         } else {
             console.log('로그인댐');

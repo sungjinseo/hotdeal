@@ -46,16 +46,20 @@ export class PpomppuService {
             .map((_, element) => {
                 const tr = $(element);
 
+                // 사이즈가 3이면 종료아이콘이 있는거임.
+                console.log(tr.find('img').length);
+                console.log(tr.find('table').find('tr').find('td').find('a').text());
                 // image
                 // tr.find('table').find('tr').find('img').attr('src')
                 // title with 댓글수
-                // tr.find('table').find('tr').find('td').text()
+                console.log(tr.find('table').find('tr').find('td').text());
+                // tr.find('.list_comment2').text()
                 // title
                 // tr.find('table').find('tr').find('td').find('a').text()
                 // link
                 // tr.find('table').find('tr').find('td').find('a').attr('href')
                 // 리스트의 마지막 바로전이 추천-비추천수
-                // tr.text().split('\t')
+                // tr.text().split('\t')[tr.text().split('\t').length-2]
                 return {
                     link: `http://www.ppomppu.co.kr/zboard/${tr
                         .find('table')

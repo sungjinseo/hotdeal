@@ -23,33 +23,39 @@ export class AppService {
     //     this.clientId = this.configService.get<string>('CLIENT_ID');
     // }
 
-    //@Cron('10 * * * * *', { name: 'ppomppuTask' })
-    @Interval('hotdealTask', 5000)
-    public async getPpompuHotdeal() {
-        this.ppomppuService.test().then((result) => {
-            console.log(result);
-        });
-    }
-
-    //@Interval('loginCheckTask', 5000)
+    @Interval('ppomppuHotdealTask', 5000)
     async checkLogin() {
         if (this.kakaoService.accessToken === undefined) {
             console.log('아직로그인안됨');
             //puppeteer을 이용해서 로그인처리해보자
-            const result = await this.puppeteerService.example('http:/');
-            //this.kakaoService.callAuth(this.clientId, this.redirectUri);
+            // const result = await this.puppeteerService.example(
+            //     'https://kauth.kakao.com/oauth/authorize?client_id=&redirect_uri=http://localhost:3000/kakao-callback&response_type=code&scope=talk_message',
+            // );
+
+            this.puppeteerService
+                .example(
+                    'https://kauth.kakao.com/oauth/authorize?client_id=' +
+                        this.clientId +
+                        '&redirect_uri=http://localhost:3000/kakao-callback&response_type=code&scope=talk_message',
+                )
+                .then((result) => {
+                    console.log(result);
+                });
+            // this.kakaoService
+            //     .callAuth(this.clientId, this.redirectUri)
+            //     .then((result) => {
+            //         console.log(result);
+            //     });
         } else {
             console.log('로그인댐');
-            this.kakaoService.kakaoMsg();
+            // this.ppomppuService.getHotdeal().then((result) => {
+            //     //result에서 화면에 노출시킨 녀석을 map에 담아서 재조회될시에 메세지 처리 하지 않도록 한다.;
+            //     this.kakaoService
+            //         .kakaoMsg(result.slice(0, 3))
+            //         .then((result) => {
+            //             console.log(result);
+            //         });
+            // });
         }
-        // if (this.kakaoService.kakaoToken === undefined) {
-        //     const code = await this.kakaoService.callAuth(
-        //         this.clientId,
-        //         this.redirectUri,
-        //     );
-        //     console.log(code);
-        // } else {
-        //     console.log(this.kakaoService.kakaoToken);
-        // }
     }
 }

@@ -15,7 +15,7 @@ export class KakaoService {
     }
 
     // 코드받을때 쓰는구나...
-    async callAuth(clientId: string, redirectUri: string) {
+    async callAuth(clientId: string, redirectUri: string): Promise<any> {
         //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
         const result = await axios.get(
             'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=' +
@@ -64,57 +64,29 @@ export class KakaoService {
         }
     }
 
-    async kakaoMsg(): Promise<any> {
+    async kakaoMsg(content: string[]): Promise<any> {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const qs = require('querystring');
         const kakaoMsgUrl =
             'https://kapi.kakao.com/v2/api/talk/memo/default/send';
         const body = {
             object_type: 'list',
-            header_title: 'WEEKELY MAGAZINE',
+            header_title: '뽐뿌핫딜이다 요녀석아',
             header_link: {
-                web_url: 'https://www.ppomppu.co.kr/',
-                mobile_web_url: 'https://www.ppomppu.co.kr/',
+                web_url:
+                    'https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&page=1&hotlist_flag=999&divpage=66',
+                mobile_web_url:
+                    'https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&page=1&hotlist_flag=999&divpage=66',
             },
-            contents: [
-                {
-                    title: '자전거 라이더를 위한 공간',
-                    description: '매거진',
-                    image_url:
-                        'https://mud-kage.kakao.com/dn/QNvGY/btqfD0SKT9m/k4KUlb1m0dKPHxGV8WbIK1/openlink_640x640s.jpg',
-                    image_width: 640,
-                    image_height: 640,
-                    link: {
-                        web_url: 'https://www.ppomppu.co.kr',
-                        mobile_web_url: 'https://www.ppomppu.co.kr',
-                    },
-                },
-                {
-                    title: '비쥬얼이 끝내주는 오레오 카푸치노',
-                    description: '매거진',
-                    image_url:
-                        'https://mud-kage.kakao.com/dn/boVWEm/btqfFGlOpJB/mKsq9z6U2Xpms3NztZgiD1/openlink_640x640s.jpg',
-                    image_width: 640,
-                    image_height: 640,
-                    link: {
-                        web_url: 'https://www.ppomppu.co.kr',
-                        mobile_web_url: 'https://www.ppomppu.co.kr',
-                    },
-                },
-            ],
+            contents: content,
             buttons: [
                 {
                     title: '웹으로 이동',
                     link: {
-                        web_url: 'http://www.daum.net',
-                        mobile_web_url: 'http://m.daum.net',
-                    },
-                },
-                {
-                    title: '앱으로 이동',
-                    link: {
-                        android_execution_params: 'main',
-                        ios_execution_params: 'main',
+                        web_url:
+                            'https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&page=1&hotlist_flag=999&divpage=66',
+                        mobile_web_url:
+                            'https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&page=1&hotlist_flag=999&divpage=66',
                     },
                 },
             ],
@@ -133,7 +105,8 @@ export class KakaoService {
                 data: { template_object: JSON.stringify(body) },
             });
             if (response.status === 200) {
-                console.log(response);
+                console.log(response.status);
+                return response;
             } else {
                 throw new UnauthorizedException();
             }

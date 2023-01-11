@@ -11,7 +11,7 @@ export class PpomppuService {
     // };
     private readonly logger = new Logger(PpomppuService.name);
 
-    public async test() {
+    public async getHotdeal(): Promise<[]> {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const iconv = require('iconv-lite');
         // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -42,20 +42,66 @@ export class PpomppuService {
         //     })
         //     .get();
 
+        // 핫딜 기준
+        // 1. 종료가 되지 않은 딜
+        // 1.1 tr.find('img').length === 3은 종료된 딜이다.
+        // 2. 핫딜 아이콘이 있는 딜
+        // 2.1 tr.find('img').get(1).attributes[0].value === /images/menu/hot_icon2.jpg
+        // 3. 인기딜인데 댓글이 많은거
+        // 3.1 댓글대비 추천수 비교
         const hot = $('#revolution_main_table .list1,.list0')
             .map((_, element) => {
                 const tr = $(element);
+                if (tr.find('img').length === 2) {
+                    const imgName = tr.find('img').get(1).attributes[0].value;
+                    if (imgName.includes('hot_icon')) {
+                        return {
+                            title: tr
+                                .find('table')
+                                .find('tr')
+                                .find('td')
+                                .find('a')
+                                .text(),
+                            description: '',
+                            image_url:
+                                'http:' +
+                                tr
+                                    .find('table')
+                                    .find('tr')
+                                    .find('img')
+                                    .attr('src'),
+                            image_width: 640,
+                            image_height: 640,
+                            link: {
+                                web_url: `http://www.ppomppu.co.kr/zboard/${tr
+                                    .find('table')
+                                    .find('tr')
+                                    .find('td')
+                                    .find('a')
+                                    .attr('href')}`,
+                                mobile_web_url: `http://m.ppomppu.co.kr/new/bbs_${tr
+                                    .find('table')
+                                    .find('tr')
+                                    .find('td')
+                                    .find('a')
+                                    .attr('href')}`,
+                            },
+                        };
+                    }
+                }
 
                 // 사이즈가 3이면 종료아이콘이 있는거임.
-                console.log(tr.find('img').get(1).attributes[0].value);
+                // console.log(tr.find('img').get(1).attributes[0].value);
                 // 여기 컨테인이 /images/menu/hot_icon2.jpg 핫딜
                 // /images/menu/pop_icon2.jpg 인기딜
-                console.log(tr.find('img').length);
-                console.log(tr.find('table').find('tr').find('td').find('a').text());
+                // console.log(tr.find('img').length);
+                // console.log(
+                //     tr.find('table').find('tr').find('td').find('a').text(),
+                // );
                 // image
                 // tr.find('table').find('tr').find('img').attr('src')
                 // title with 댓글수
-                console.log(tr.find('table').find('tr').find('td').text());
+                // console.log(tr.find('table').find('tr').find('td').text());
                 // tr.find('.list_comment2').text()
                 // title
                 // tr.find('table').find('tr').find('td').find('a').text()
@@ -64,20 +110,19 @@ export class PpomppuService {
                 // 리스트의 마지막 바로전이 추천-비추천수
                 // tr.text().split('\t')[tr.text().split('\t').length-2]
                 ///images/menu/hot_icon2.jpg
-                return {
-                    link: `http://www.ppomppu.co.kr/zboard/${tr
-                        .find('table')
-                        .find('tr')
-                        .find('td')
-                        .find('a')
-                        .attr('href')}`,
-                    title: tr
-                        .find('table')
-                        .find('tr')
-                        .find('td')
-                        .find('a')
-                        .text(),
-                };
+
+                // {
+                //     title: '비쥬얼이 끝내주는 오레오 카푸치노',
+                //         description: '매거진',
+                //     image_url:
+                //     'https://mud-kage.kakao.com/dn/boVWEm/btqfFGlOpJB/mKsq9z6U2Xpms3NztZgiD1/openlink_640x640s.jpg',
+                //         image_width: 640,
+                //     image_height: 640,
+                //     link: {
+                //     web_url: 'https://www.ppomppu.co.kr',
+                //         mobile_web_url: 'https://www.ppomppu.co.kr',
+                // },
+                // },
             })
             .get();
         return hot;

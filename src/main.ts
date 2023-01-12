@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import * as config from 'config';
 
 async function bootstrap() {
+    // github commit test
     const app = await NestFactory.create(AppModule);
 
     const serverConfig = config.get('server');
